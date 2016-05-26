@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load tipping_tags %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type='text/javascript' src='{{ STATIC_URL }}tipping/js/tipping.js'></script>
+  <script type="text/javascript">
+    Tipping.configure("{% url tipping:tip_form %}");
+  </script>
+{% endblock %}
+
+{% block body %}
+
+{% if round %}
+
+  <h2> {{ round.description }} </h2>
+
+  <div class="clearfix spacer">
+    <dl>
+      <dt> Competition </dt>
+      <dd> <a href="{% url tipping:competition round.competition_id %}">{{ round.competition }}</a></dd>
+      <dt> Start </dt>
+      <dd> {{ round.start }}</dd>
+      <dt> End </dt>
+      <dd> {{ round.end }}</dd>
+      <dt> Notes </dt>
+      <dd> {{ round.notes }}</dd>
+      {% if registration %}
+      <dt> Correct Tips </dt>
+      <dd> {{ registration|round_score:round}}</dd>
+      {% endif %}
+    </dl>
+  </div>
+  <h2> Matches </h2>
+  <ul class="objects">
+    {% for match in matches %}
+      <li>{% include "tipping/match_preview.html" with match=match %}</li>
+    {% endfor %}
+  <ul>
+
+{% else %}
+    <h2> There Are No More Rounds To Tip! </h2>
+{% endif %}
+{% endblock %}

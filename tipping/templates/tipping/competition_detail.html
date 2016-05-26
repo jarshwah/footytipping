@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block body %}
+
+  <h2> {{ competition }} </h2>
+  
+    <dl>
+      <dt> Starts</dt>
+      <dd> {{ competition.start }}</dd>
+      <dt> Ends</dt>
+      <dd> {{ competition.end }}</dd>
+      <dt> Fee</dt>
+      <dd> ${{ competition.fee }}</dd>
+      <dt> Points for 'Clean Sweep'</dt>
+      <dd> {{ competition.clean_sweep_extra_points }}</dd>
+      <dt> Registered?</dt>
+      <dd> {% include "tipping/register_form.html" with competition=competition %}</dd>
+      <dt> Extra Info</dt>
+      <dd> {{ competition.notes|safe }}</dd>
+    </dl>
+  
+  <div class="centered">
+    <button id="show_comments" class="button">Show Comments</button>
+    <button id="leaderboard_comp" class="button">Show Leader Board</button>
+    <button id="rounds_comp" class="button">Show Rounds</button>
+    <a href="{% url tipping:upcoming_round pk=competition.id %}" class="button"> Upcoming Round </a>
+  </div>
+  <p>
+  
+  <div id="waiting" class="centered hide">
+    <img src="{{ STATIC_URL }}site/img/spinner.gif">
+  </div>
+  
+  <div id="subcontent">
+
+  </div>
+  
+  <div id="comments">
+      {% url tipping:competition competition.id as redirect_url %}
+      {% include "tipping/_comments.html" with comment_object=competition %}
+  </p>  
+
+  <!-- Load Each Portion Ajaxily -->
+    <script type="text/javascript">
+     $(document).ready(function(){
+       var subcontent = $("#subcontent");
+       var waiting = $("#waiting");
+       var comments = $("#comments");
+       
+       $("#show_comments").click(function() {
+            subcontent.hide('slow', function() {
+                comments.show('slow');
+            });
+       });
+       
+       $("#leaderboard_comp").click(function() {
+         var url = '{% url tipping:competition_leaderboard competition.id %}';
+         loadAjaxResponse(url);
+       });
+       
+       $("#rounds_comp").click(function() {
+         var url = '{% url tipping:competition_rounds competition.id %}';
+         loadAjaxResponse(url);
+       });
+       
+       function loadAjaxResponse(url) {
+         if ($(subcontent).children().length === 0) {
+           waiting.show();
+         }
+         
+         subcontent.hide('slow', function() {
+             comments.hide('slow', function() {
+                 subcontent.load(url, handleAjaxResponse);
+             });
+         });
+       }
+
+       function handleAjaxResponse(response, status, xhr) {
+         if (status == "error") {
+           var msg = "Sorry but there was an error: ";
+           subcontent.html(msg + xhr.status + " " + xhr.statusText);
+         }
+         waiting.hide();
+         subcontent.show('fast');
+       }
+       
+     });
+     
+    </script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load humanize %}
+
+{% with registration.user as tipper  %}
+<a title="Score" href="#">
+  <span class="count"> 
+    {{ registration.competition_score }}
+  </span>
+</a>
+<h3> {{ tipper }} </h3>
+<span class="register"> {{ rank|ordinal }}</span>
+{% endwith %}

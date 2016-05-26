@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load tipping_tags %}
+
+{% block body %}
+
+  <h2> Who's Tipping? </h2>
+
+  <ul class="objects">
+    <li>{% include "tipping/competition_preview.html" with competition=competition %}</li>
+  </ul>
+  
+  <ul class="objects">
+  {% for registration in registrations %}
+    <li>{% include "tipping/tipper_preview.html" with registration=registration %}</li>
+  {% empty %}
+      <li> No Registered Tippers! </li>
+  {% endfor %}
+
+  </ul>
+  
+{% endblock %}

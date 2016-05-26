@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+  {{ block.super }}
+  <script type='text/javascript' src='{{ STATIC_URL }}tipping/js/tipping.js'></script>
+  <script type="text/javascript">
+    Tipping.configure("{% url tipping:tip_form %}");
+  </script>
+{% endblock %}
+
+{% block body %}
+  <h2>
+    {% if competitions %} 
+      This Weeks Tips
+    {% else %}
+      No Upcoming Tips
+    {% endif %}
+  </h2>
+
+  {% for competition in competitions %}
+    {% for registration in registrations %}
+        {% if competition.id == registration.competition_id %}
+            {% with round=competition.get_upcoming_round %}
+            <h3> 
+              <a href="{% url tipping:competition competition.id %}">{{ competition }}</a>
+              {% if round %}
+              &raquo;
+              <a href="{% url tipping:round round.id %}">{{ round.description }}</a> 
+              {% endif %}
+            </h3>
+            
+              {% if round %}
+                <ul class="objects">
+                  {% for match in round.matches.all %}
+                    <li>{% include "tipping/match_preview.html" with match=match %}</li>
+                  {% endfor %}
+                <ul>
+              {% else %}
+                <h3> No upcoming rounds for this competition </h3>
+              {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+  {% endfor %}
+  
+{% endblock %}

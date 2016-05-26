@@ -1,0 +1,4 @@
+{% load tipping_tags %}
+<h3> <a title="click for details" href="{% url tipping:match pk=match.id %}"> {{ match.matchup }} </a> </h3>
+<p class="message"> {{ match.kickoff }} @ {{ match.venue }}</p>
+<p class="message"> {% include "tipping/tip_form.html" with match=match %} </p>

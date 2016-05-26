@@ -1,0 +1,6 @@
+<h3> Leader Board </h3>
+<ul class="objects">
+  {% for registration in competition.ranked_registrations %}
+    <li>{% include "tipping/tipper_preview.html" with registration=registration rank=forloop.counter %}</li>
+  {% endfor %}
+<ul>

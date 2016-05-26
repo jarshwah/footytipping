@@ -1,0 +1,11 @@
+<a title="Matches In Round" href="{% url tipping:round round.id %}">
+  <span class="count"> 
+    {{ round.matches.count }} 
+  </span>
+</a>
+<h3> 
+  <a href="{% url tipping:round round.id %}"> 
+    {{ round.description }} 
+  </a> 
+</h3>
+<p class="message"> {{ round.start|date:"D d M Y fA" }} to {{ round.end|date:"D d M Y" }} </p>

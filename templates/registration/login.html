@@ -1,0 +1,26 @@
+{% extends "registration/registration_base.html" %}
+{% load uni_form_tags %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+<h3> Login </h3>
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<form autocomplete="off" method="post" action="{% url auth_login %}" class="uniForm">{% csrf_token %}
+  <fieldset class="inlineLabels">
+    {{ form|as_uni_form }}
+    <div class="ctrlHolder">
+      <input type="submit" value="login" class="button"/>
+    </div>
+    <div class="ctrlHolder"> 
+      <span class="form_hint"> <a href="{% url auth_password_reset %}">Forgot</a> your password? </span>
+      <span class="form_hint"> <a href="{% url registration_register %}">Need an account</a>? </span>
+    </div>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </fieldset>
+</form>
+
+{% endblock %}

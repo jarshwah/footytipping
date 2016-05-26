@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load tipping_tags %}
+
+{% block body %}
+
+  <h2> Match List - Round {{ round }} </h2>
+
+  <ul class="objects">
+    <li>{% include "tipping/round_preview.html" with round=round %}</li>
+  </ul>
+  
+  <ul class="objects">
+  {% for match in matches %}
+    <li>{% include "tipping/match_preview.html" with match=match %}</li>
+  {% empty %}
+      <li> No Matches Scheduled Yet </li>
+  {% endfor %}
+
+  </ul>
+  
+{% endblock %}

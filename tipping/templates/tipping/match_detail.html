@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block javascript %}
+  {{ block.super }}
+  <script type='text/javascript' src='{{ STATIC_URL }}tipping/js/tipping.js'></script>
+  <script type="text/javascript">
+    Tipping.configure("{% url tipping:tip_form %}");
+  </script>
+{% endblock %}
+
+{% block body %}
+<h2> {{ match.matchup }} </h2>
+
+<div class="clearfix spacer">
+  <dl>
+    <dt> Round </dt>
+    <dd> <a href="{% url tipping:round match.round.id %}"> {{ match.round.description }} </a> 
+    </dd>
+    <dt> Home Team </dt>
+    <dd> {{ match.home_team }}</dd>
+    <dt> Away Team </dt>
+    <dd> {{ match.away_team }}</dd>
+    <dt> Venue </dt>
+    <dd> {{ match.venue }}</dd>
+    <dt> Kick Off </dt>
+    <dd> {{ match.kickoff }}</dd>
+    <dt> Winner </dt>
+    <dd> {{ match.resolve_winner }}</dd>
+  </dl>
+</div>
+
+<div class="spacer">
+<h2> Tip </h2> {% include "tipping/tip_form.html" with match=match %}
+</div>
+
+{% endblock %}

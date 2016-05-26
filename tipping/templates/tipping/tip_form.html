@@ -1,0 +1,29 @@
+{% load tipping_tags %}
+
+{% if errors %}
+  {{ errors }}
+{% else %}
+  {% if registration %}
+    {% if match.accepting_tips %}
+      <div class="clearfix spacer">
+        <form method="post" class="form_inline">{% csrf_token %}
+          {{ match|tip_home_form:registration }}
+          <input type="submit" value="{{ match.home_team.display_name }}" class="button {% tipped registration match match.home_team %}"/>
+        </form>
+        <form method="post" class="form_inline">{% csrf_token %}
+          {{ match|tip_away_form:registration }}
+          <input type="submit" value="{{ match.away_team.display_name }}" class="button {% tipped registration match match.away_team %}"/>
+        </form>
+        <span class="form_notify"> </span>
+      </div>
+    {% else %}
+      {{ registration|my_tip:match }}
+    {% endif %}
+  {% else %}
+    {% if match.accepting_tips %}
+      Login or Register to Tip
+    {% else %}
+      No Longer Accepting Tips
+    {% endif %}
+  {% endif %}
+{% endif %}

@@ -1,0 +1,22 @@
+{% load tipping_tags %}
+
+{% if errors %}
+  {{ errors }}
+{% else %}
+  {% if request.user.is_authenticated %}
+    {% if request.user|can_register:competition %}
+      <form method="post" action="{% url tipping:register competition.id %}">{% csrf_token %}
+        {{ competition|as_registration_form:request.user }}
+        <input type="submit" value="Register" class="button"/>
+      </form>
+    {% else %}
+      {% if competition.is_open %}
+        <span> Registered </span>
+      {% else %}
+        <span> Registrations Closed </span>
+      {% endif %}
+    {% endif %}
+  {% else %}
+    <span> Login to Register </span>
+  {% endif %}
+{% endif %}

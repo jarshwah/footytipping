@@ -1,0 +1,12 @@
+{% extends "registration/registration_base.html" %}
+
+{% block meta %}
+  {{ block.super }}
+  <META HTTP-EQUIV="refresh" CONTENT="3;URL=/">
+{% endblock %}
+
+{% block title %}Logged out{% endblock %}
+{% block body %}
+<h3> Logging Out </h3>
+<p> Successfully logged out! Redirecting to home in 3 seconds ... </p>
+{% endblock %}

@@ -1,0 +1,2 @@
+-e git+https://github.com/pydanny/django-uni-form.git#egg=django-uni-form
+-e git+https://github.com/ericflo/django-pagination.git#egg=django-pagination

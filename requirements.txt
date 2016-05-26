@@ -1,0 +1,6 @@
+-e svn+http://code.djangoproject.com/svn/django/trunk#egg=Django
+docutils
+django-registration>=0.7
+South>=0.7.3
+psycopg2
+django-debug-toolbar

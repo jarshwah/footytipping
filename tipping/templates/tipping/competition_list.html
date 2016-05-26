@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <h2>
+    {% if competitions %} 
+      Competitions 
+    {% else %}
+      No Competitions Matching Filter
+    {% endif %}
+  </h2>
+  <ul class="objects">
+  {% for competition in competitions %}
+    <li>{% include "tipping/competition_preview.html" with competition=competition %}</li>
+  {% endfor %}
+  </ul>
+  
+{% endblock %}

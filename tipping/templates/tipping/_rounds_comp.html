@@ -1,0 +1,6 @@
+<h3> Rounds </h3>
+<ul class="objects">
+  {% for round in competition.rounds.filter %}
+    <li>{% include "tipping/round_preview.html" with round=round %}</li>
+  {% endfor %}
+<ul>

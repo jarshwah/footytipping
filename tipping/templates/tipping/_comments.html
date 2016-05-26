@@ -1,0 +1,38 @@
+{% load comments %}
+{% load uni_form_tags %}
+
+<h3> Comments </h3>
+
+{% get_comment_form for comment_object as comment_form %}
+
+{% if request.user.is_authenticated %}
+<form action="{% comment_form_target %}" method="post" class="uniForm">{% csrf_token %}
+    <fieldset class="inlineLabels">
+      {{ comment_form|as_uni_form }}
+      <div class="ctrlHolder">
+        <input type="submit" value="Add Comment" class="button"/>
+        {% if redirect_url %}
+        <input type="hidden" name="next" value="{{ redirect_url }}">
+        {% endif %}
+      </div>
+    </fieldset>
+</form>
+
+<script type="text/javascript">
+    $('#div_id_name').hide();
+    $('#id_name').val('{{ request.user.username }}');
+    $('#div_id_email').hide();
+    $('#id_email').val('{{ request.user.email }}');
+    $('#div_id_url').hide();
+    $('#div_id_honeypot').hide();
+</script>
+
+{% endif %}
+
+<div class="spacer">
+    
+{% get_comment_list for comment_object as comment_list %}
+{% include "comments/list.html" with comment_list=comment_list|slice:"-1::-1" %}
+</div>
+<div class="clearfix"></div>
+

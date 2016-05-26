@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <h2>
+    {% if rounds %}
+      Rounds for {{ competition }}
+    {% else %}
+      No Rounds in {{ competition }}
+    {% endif %}
+  </h2>
+  <ul class="objects">
+  {% for round in rounds %}
+    <li>{% include "tipping/round_preview.html" with round=round %}</li>
+  {% endfor %}
+  </ul>
+  
+{% endblock %}
